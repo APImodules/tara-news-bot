@@ -1,22 +1,24 @@
-import asyncio
-import os
-
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters import Command
 from aiogram.types import Message
-from aiogram.filters import Command  # Импорт фильтра для команд
+import asyncio
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+TOKEN = "твой_токен_бота_в_кавычках"
 
-bot = Bot(token=BOT_TOKEN)
+bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
-# Обработчик команды /start — регистрация с фильтром Command
-@dp.message(Command("start"))
+async def on_startup():
+    # Снимаем webhook, чтобы избежать конфликта
+    await bot.delete_webhook(drop_pending_updates=True)
+    print("Webhook удалён, запускаем polling...")
+
+@dp.message(Command(commands=["start"]))
 async def cmd_start(message: Message):
-    await message.answer("Привет! 👋 Я уже запущен и жду команды!")
+    await message.answer("Привет! Я запущен через polling, webhook отключён 😊")
 
 async def main():
-    print("✅ Бот запускается...")
+    await on_startup()
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
