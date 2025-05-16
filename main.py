@@ -1,25 +1,23 @@
 import asyncio
-from aiogram import Bot, Dispatcher, types
-from aiogram.types import Message
 import os
 
-# Получаем токен из переменных окружения
+from aiogram import Bot, Dispatcher
+from aiogram.types import Message
+from aiogram.filters import Command  # Импорт фильтра для команд
+
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-# Инициализация бота и диспетчера
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
-# Обработка команды /start
-@dp.message(commands=["start"])
-async def start_handler(message: Message):
-    await message.answer("Привет! Я работаю 🎉")
+# Обработчик команды /start — регистрация с фильтром Command
+@dp.message(Command("start"))
+async def cmd_start(message: Message):
+    await message.answer("Привет! 👋 Я уже запущен и жду команды!")
 
-# Функция запуска бота
 async def main():
-    print("Бот запускается...")
+    print("✅ Бот запускается...")
     await dp.start_polling(bot)
 
-# Точка входа
 if __name__ == "__main__":
     asyncio.run(main())
