@@ -3,7 +3,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 import asyncio
 
-TOKEN = "твой_токен_бота_в_кавычках"
+TOKEN = "7036607708:AAFpRYZJvYwS_mlMbPKoj_SzBx4tPoTLFQA"
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
