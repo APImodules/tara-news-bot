@@ -1,27 +1,25 @@
-import asyncio
-from aiogram import Bot, Dispatcher
-from aiogram.filters import Command
+from aiogram import Bot, Dispatcher, types
 from aiogram.types import Message
+from aiogram.filters import Command
+import asyncio
+import os
 
-TOKEN = "твой_токен_бота"
+# Токен берём из переменной окружения (так безопаснее)
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-bot = Bot(token=TOKEN)
+bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
-async def on_startup():
-    print("Удаляю webhook...")
-    await bot.delete_webhook(drop_pending_updates=True)
-    print("Webhook удалён.")
-
-@dp.message(Command(commands=["start"]))
-async def start_handler(message: Message):
-    print(f"Получил команду /start от {message.from_user.id}")
-    await message.answer("Привет! Бот работает через polling!")
+@dp.message(Command("start"))
+async def start_command(message: Message):
+    await message.answer("Привет, я бот")
 
 async def main():
-    await on_startup()
-    print("Запускаю polling...")
-    await dp.start_polling(bot)
+    try:
+        # Запускаем поллинг (долго опрашиваем сервер Телеграм)
+        await dp.start_polling(bot)
+    finally:
+        await bot.session.close()
 
 if __name__ == "__main__":
     asyncio.run(main())
