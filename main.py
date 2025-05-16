@@ -10,7 +10,7 @@ import asyncio                               # Для асинхронного �
 import os                                    # Для работы с переменными окружения
 
 # 📌 Здесь указываем токен Telegram-бота (пока вставим вручную, позже вынесем в .env или config)
-BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
+BOT_TOKEN = "7036607708:AAFpRYZJvYwS_mlMbPKoj_SzBx4tPoTLFQA"
 
 # 📌 Создаём экземпляр бота
 bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)
